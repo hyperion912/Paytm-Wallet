@@ -1,0 +1,12 @@
+{
+  "name": "@repo/store",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "recoil": "^0.7.7",
+    "@repo/typescript-config": "*"
+  },
+  "exports": {
+    "./useBalance": "./src/hooks/useBalance.ts"
+}
+}
