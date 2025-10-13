@@ -1,9 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
+import { JSXElementConstructor, ReactElement, ReactNode } from "react";
 
 interface ButtonProps {
-  children: ReactNode;
+  children: ReactElement<unknown, string | JSXElementConstructor<any>>;
   onClick: () => void;
 }
 

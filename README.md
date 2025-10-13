@@ -1,135 +1,122 @@
-# Turborepo starter
+# Paytm-wallet
 
-This Turborepo starter is maintained by the Turborepo core team.
+This is a monorepo for a Paytm-like wallet application, built with a Next.js frontend, a bank webhook service, and shared packages for database interactions and UI components.
 
-## Using this example
+## Project Structure
 
-Run the following command:
+The project is organized as a monorepo using Turborepo, with the following key packages and applications:
 
-```sh
-npx create-turbo@latest
+- `apps/user-app`: The Next.js frontend application for users to interact with the wallet.
+- `apps/bank-webhook`: A service to handle incoming bank webhooks for transactions.
+- `packages/db`: Contains Prisma schema and client for database interactions.
+- `packages/ui`: A shared library for UI components (e.g., buttons, cards, text inputs).
+- `packages/store`: A shared library for state management (e.g., balance atoms and hooks).
+- `packages/eslint-config`: ESLint configurations for consistent code style.
+- `packages/typescript-config`: TypeScript configurations.
+
+## Features
+
+- User authentication (NextAuth.js)
+- Add money to wallet (on-ramp transactions)
+- Peer-to-peer (P2P) transfers
+- Transaction history
+- Balance display
+- Responsive UI components
+
+## Technologies Used
+
+- **Next.js**: Frontend framework for `user-app`.
+- **React**: UI library.
+- **TypeScript**: Type-safe JavaScript.
+- **Prisma**: ORM for database access.
+- **PostgreSQL**: Database.
+- **Tailwind CSS**: For styling (likely used within `user-app` and `ui` components).
+- **Turborepo**: Monorepo management.
+- **NextAuth.js**: Authentication for Next.js applications.
+- **Zustand/Jotai (or similar)**: State management for `packages/store`.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- pnpm (package manager)
+- PostgreSQL database
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/Paytm-wallet.git
+   cd Paytm-wallet
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+
+   Create `.env` files in `apps/user-app`, `apps/bank-webhook`, and `packages/db` based on the `.env.example` files (if available) or the expected variables.
+
+   **Example variables for `packages/db/.env`:**
+   ```
+   DATABASE_URL="postgresql://user:password@localhost:5432/paytmwalletdb"
+   ```
+
+   **Example variables for `apps/user-app/.env`:**
+   ```
+   DATABASE_URL="postgresql://user:password@localhost:5432/paytmwalletdb"
+   NEXTAUTH_SECRET="YOUR_NEXTAUTH_SECRET"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+   **Example variables for `apps/bank-webhook/.env`:**
+   ```
+   DATABASE_URL="postgresql://user:password@localhost:5432/paytmwalletdb"
+   # Add any other specific webhook secrets or configurations here
+   ```
+
+4. **Database Setup:**
+
+   Navigate to the `packages/db` directory and run Prisma migrations:
+
+   ```bash
+   cd packages/db
+   pnpm prisma migrate dev --name init
+   pnpm prisma db seed
+   cd ../..
+   ```
+
+### Running the Applications
+
+To run all applications in development mode:
+
+```bash
+npm dev
 ```
 
-## What's inside?
+This will concurrently start the `user-app` (Next.js frontend) and `bank-webhook` services.
 
-This Turborepo includes the following packages/apps:
+- The `user-app` will typically be available at `http://localhost:3000`.
+- The `bank-webhook` will run on its configured port (check `apps/bank-webhook/src/index.ts` or logs for details, usually 3003 or similar).
 
-### Apps and Packages
+### Building for Production
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+To build all applications for production:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+npm build
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Linting
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+To lint all projects:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+npm lint
 ```
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
