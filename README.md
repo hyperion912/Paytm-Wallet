@@ -30,7 +30,7 @@ The project is organized as a monorepo using Turborepo, with the following key p
 - **TypeScript**: Type-safe JavaScript.
 - **Prisma**: ORM for database access.
 - **PostgreSQL**: Database.
-- **Tailwind CSS**: For styling (likely used within `user-app` and `ui` components).
+- **Tailwind CSS**: For styling.
 - **Turborepo**: Monorepo management.
 - **NextAuth.js**: Authentication for Next.js applications.
 
