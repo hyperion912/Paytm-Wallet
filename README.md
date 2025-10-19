@@ -33,7 +33,6 @@ The project is organized as a monorepo using Turborepo, with the following key p
 - **Tailwind CSS**: For styling (likely used within `user-app` and `ui` components).
 - **Turborepo**: Monorepo management.
 - **NextAuth.js**: Authentication for Next.js applications.
-- **Zustand/Jotai (or similar)**: State management for `packages/store`.
 
 ## Getting Started
 
